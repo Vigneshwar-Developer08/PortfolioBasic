@@ -1,168 +1,157 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { AnimatePresence } from 'motion/react';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
 import Skills from './components/Skills.jsx';
 import Projects from './components/Projects.jsx';
-import Experience from './components/Experience.jsx';
-import Contributions from './components/Contributions.jsx';
-import Services from './components/Services.jsx';
 import Contact from './components/Contact.jsx';
-import { Cpu, Github, Linkedin, Mail, Twitter, ChevronUp, Sun, Moon } from 'lucide-react';
+import PageTransition from './components/PageTransition.jsx';
+import PageNav from './components/PageNav.jsx';
+import { Github, Linkedin, Mail, ChevronUp, ArrowUpRight } from 'lucide-react';
 import { portfolioData } from './portfolioData.js';
+
+const VALID_SECTIONS = PAGE_ORDER.map((p) => p.id);
 
 export default function App() {
   const [currentSection, setCurrentSection] = useState('home');
   const [syntaxTheme, setSyntaxTheme] = useState('blue');
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  const { developer, meta } = portfolioData;
+  const initials = `${developer.firstName[0]}${developer.lastName[0]}`;
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
-  // Monitor active sections on scroll to light up navigation links
+  const handleNavigate = useCallback((id) => {
+    if (!VALID_SECTIONS.includes(id)) return;
+    setCurrentSection(id);
+    window.history.replaceState(null, '', `#${id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => {
-      // Toggle back to top button visibility
-      if (window.scrollY > 500) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
+    const hash = window.location.hash.replace('#', '');
+    if (hash && VALID_SECTIONS.includes(hash)) {
+      setCurrentSection(hash);
+    }
+    window.addEventListener('hashchange', () => {
+      const h = window.location.hash.replace('#', '');
+      if (h && VALID_SECTIONS.includes(h)) setCurrentSection(h);
+    });
+  }, []);
 
-      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'contact'];
-      const scrollPos = window.scrollY + 250;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setCurrentSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const accentBg =
+    syntaxTheme === 'blue'
+      ? 'bg-indigo-600'
+      : syntaxTheme === 'purple'
+        ? 'bg-purple-600'
+        : 'bg-emerald-600';
+
+  const renderPage = () => {
+    switch (currentSection) {
+      case 'home':
+        return <Hero syntaxTheme={syntaxTheme} onNavigate={handleNavigate} />;
+      case 'about':
+        return <About syntaxTheme={syntaxTheme} />;
+      case 'skills':
+        return <Skills syntaxTheme={syntaxTheme} />;
+      case 'projects':
+        return <Projects syntaxTheme={syntaxTheme} />;
+      case 'contact':
+        return <Contact syntaxTheme={syntaxTheme} />;
+      default:
+        return <Hero syntaxTheme={syntaxTheme} onNavigate={handleNavigate} />;
+    }
   };
 
   return (
     <div className="min-h-screen bg-bg text-text font-sans overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-950 dark:selection:bg-indigo-900/50 dark:selection:text-indigo-200">
-      {/* Dynamic Background Grid Pattern overlay */}
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f46e504_1px,transparent_1px),linear-gradient(to_bottom,#4f46e504_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none z-[1]" />
-      
-      {/* Top sticky blur Header panel */}
-      <Header 
-        currentSection={currentSection} 
-        onNavigate={setCurrentSection} 
-        syntaxTheme={syntaxTheme} 
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(79,70,229,0.07),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(129,140,248,0.05),transparent)] pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f46e504_1px,transparent_1px),linear-gradient(to_bottom,#4f46e504_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none z-0" />
+
+      <Header
+        currentSection={currentSection}
+        onNavigate={handleNavigate}
+        syntaxTheme={syntaxTheme}
         setSyntaxTheme={setSyntaxTheme}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
+        initials={initials}
       />
 
-      {/* Main Container core sections */}
-      <main className="relative z-10 animate-fade-in">
-        <Hero syntaxTheme={syntaxTheme} onNavigate={setCurrentSection} />
-        <About syntaxTheme={syntaxTheme} />
-        <Skills syntaxTheme={syntaxTheme} />
-        <Projects syntaxTheme={syntaxTheme} />
-        <Experience syntaxTheme={syntaxTheme} />
-        <Contributions syntaxTheme={syntaxTheme} />
-        <Services syntaxTheme={syntaxTheme} />
-        <Contact syntaxTheme={syntaxTheme} />
+      <main className="relative z-10 min-h-[calc(100vh-5rem)]">
+        <AnimatePresence mode="wait">
+          <PageTransition key={currentSection}>
+            {renderPage()}
+          </PageTransition>
+        </AnimatePresence>
+        <PageNav currentSection={currentSection} onNavigate={handleNavigate} syntaxTheme={syntaxTheme} />
       </main>
 
-      {/* High-End Footer matching the Professional Polish specifications */}
-      <footer className="relative border-t border-border bg-surface py-16 z-20 overflow-hidden text-text-secondary">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm border-b border-border-light pb-10 mb-10">
-          
-          <div className="space-y-4 md:col-span-2">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-surface-muted border border-border">
-                <Cpu className="h-4 w-4 text-indigo-600" />
+      <footer className="relative border-t border-border bg-surface py-12 z-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 mb-8 border-b border-border">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5">
+                <div className={`w-8 h-8 ${accentBg} rounded-lg flex items-center justify-center`}>
+                  <span className="text-white font-bold text-xs">{initials}</span>
+                </div>
+                <span className="font-semibold text-text">{developer.fullName}</span>
               </div>
-              <span className="font-sans text-lg font-bold text-text tracking-tight uppercase">
-                {portfolioData.meta.siteTitle}
-              </span>
+              <p className="text-sm text-text-secondary leading-relaxed max-w-xs">
+                {meta.siteDescription}
+              </p>
             </div>
-            <p className="text-text-secondary font-light max-w-sm leading-relaxed text-xs">
-              {portfolioData.meta.siteDescription}
-            </p>
-          </div>
 
-          <div className="space-y-4">
-            <h4 className="font-sans text-xs uppercase tracking-wider text-text font-bold">Architecture Index</h4>
-            <div className="flex flex-col gap-2 text-xs">
-              {['Home', 'About', 'Skills', 'Projects'].map((sec) => (
-                <button
-                  key={sec}
-                  onClick={() => {
-                    const id = sec.toLowerCase();
-                    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="hover:text-indigo-600 text-text-secondary transition-colors text-left font-medium"
-                >
-                  {sec}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-sans text-xs uppercase tracking-wider text-text font-bold">Syndicates</h4>
-            <div className="flex gap-3" id="footer-social-links">
-              <a href={portfolioData.developer.socials.github} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-600 hover:bg-surface transition-all shadow-sm">
-                <Github className="h-4 w-4" />
-              </a>
-              <a href={portfolioData.developer.socials.linkedin} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-600 hover:bg-surface transition-all shadow-sm">
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a href={portfolioData.developer.socials.twitter} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-600 hover:bg-surface transition-all shadow-sm">
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a href={`mailto:${portfolioData.developer.socials.email}`} className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-600 hover:bg-surface transition-all shadow-sm">
-                <Mail className="h-4 w-4" />
+            <div className="space-y-3">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-text">Connect</h4>
+              <div className="flex gap-3">
+                <a href={developer.socials.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all">
+                  <Github className="h-4 w-4" />
+                </a>
+                <a href={developer.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all">
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a href={`mailto:${developer.email}`} aria-label="Email" className="p-2.5 rounded-lg bg-surface-muted border border-border text-text-secondary hover:text-indigo-600 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all">
+                  <Mail className="h-4 w-4" />
+                </a>
+              </div>
+              <a href={`mailto:${developer.email}`} className="inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+                {developer.email}
+                <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
 
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center text-[10px] font-sans tracking-wider text-text-muted gap-4 uppercase font-bold">
-          <span>© 2026 {portfolioData.developer.fullName.toUpperCase()} {portfolioData.meta.siteTitle.toUpperCase()}. ALL SERVICES SECURED BY DESIGN CODES.</span>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-indigo-600 rounded-full animate-pulse"></span>
-            ACTIVE STATUS: LOOKING FOR NEW CHALLENGES
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-text-muted">
+            <span>© {new Date().getFullYear()} {developer.fullName}. All rights reserved.</span>
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              Available for opportunities
+            </span>
           </div>
         </div>
       </footer>
 
-      {/* Floating Scroll to top Button */}
-      {showScrollTop && (
-        <button
-          onClick={handleScrollToTop}
-          title="Scroll To Top"
-          className={`fixed bottom-8 right-8 z-40 p-3 rounded-full text-white hover:scale-110 active:scale-95 shadow-[0_4px_16px_rgba(79,70,229,0.3)] hover:shadow-indigo-600/50 cursor-pointer transition-all duration-300 ${
-            syntaxTheme === 'blue' ? 'bg-indigo-600' :
-            syntaxTheme === 'purple' ? 'bg-purple-600' :
-            'bg-emerald-600'
-          }`}
-          id="scroll-to-top-btn"
-        >
-          <ChevronUp className="h-5 w-5" />
-        </button>
-      )}
-
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        title="Back to top"
+        className={`fixed bottom-8 right-8 z-40 p-3 rounded-full text-white shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 ${accentBg} ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+      >
+        <ChevronUp className="h-5 w-5" />
+      </button>
     </div>
   );
 }

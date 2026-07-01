@@ -6,9 +6,9 @@ import agentsImg from './assets/mult-agent.png'
 
 export const portfolioData = {
   developer: {
-    firstName: "Vigneshwar",
-    lastName: "M",
-    fullName: "Vigneshwar M",
+    firstName: import.meta.env.VITE_FIRST_NAME || "Vigneshwar",
+    lastName: import.meta.env.VITE_LAST_NAME || "M",
+    fullName: import.meta.env.VITE_FULL_NAME || "Vigneshwar M",
     role: "Full Stack MERN Developer",
     secondaryRoles: [
       "Full Stack MERN Developer",
@@ -18,7 +18,7 @@ export const portfolioData = {
       "Interactive UI Craft"
     ],
     avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJjLKLRHPeNLSEPHSHrZbJRXgVNgkZ6OKn0g5oBDzZWN5JKW_6JJ8qS6Qae67TouGKXEoB37rieW5dxo85XAALspp2DQYwJRv0_0qcvPqvOF-6ra5eiwspf4zM_o6xE9npZPIbiNOo7R30ivGFm54BMwjUds2wG1UfgEP1qZnU_Z_qLyeZYMoUo81ea7cxyyFpjRwnE1B2wpvprzLxbEmi2RPxBwR0qX6WkZAFfOpelKtWci8gP7VUR9iL_q4MrCpIiEog7c4_fXg",
-    email: "vignesh10804@gmail.com",
+    email: import.meta.env.VITE_EMAIL || "vignesh10804@gmail.com",
     vcsEmail: "vigneshwar108004m@gmail.com",
     contactLocation: "TamilNadu, India",
     education: {
@@ -29,15 +29,15 @@ export const portfolioData = {
       courses: ["MERN Stack", "Gen AI", "OLLAMA", "Claude code", "MongoDB"]
     },
     socials: {
-      github: "https://github.com",
-      linkedin: "https://linkedin.com",
+      github: import.meta.env.VITE_GITHUB_URL || "https://github.com",
+      linkedin: import.meta.env.VITE_LINKEDIN_URL || "https://linkedin.com",
       twitter: "https://twitter.com"
     },
     cvFilename: "VIGNESHWAR_CV.pdf"
   },
   meta: {
-    siteTitle: "DEVELOPER PORTFOLIO",
-    siteDescription: "Designing modular systems and high-fidelity layouts across Redmond, cloud container structures, and open source hubs.",
+    siteTitle: "Vigneshwar M",
+    siteDescription: "Full Stack MERN Developer building clean, performant web applications with React, Node.js, and MongoDB.",
     headline: "Engineering Digital Masterpieces",
     aboutText: "Passionate about building highly reliable, secure, and complex web ecosystems that mitigate real-world friction. With over 5 years of rigorous engineering focus in the MERN stack, I build clean systems, prioritize lightning-fast database optimizations, and refine client-centric UX interfaces."
   },
@@ -70,20 +70,20 @@ export const portfolioData = {
         id: 'frontend',
         title: 'Frontend Systems',
         skills: [
-          { name: 'React', percentage: 95, level: 'Expert', desc: 'Crafting performant interfaces with intricate layout structures' },
-          { name: 'Next.js', percentage: 90, level: 'Expert', desc: 'Optimizing Server Actions and Incremental Static Regeneration' },
-          { name: 'TailwindCSS', percentage: 100, level: 'Master', desc: 'Utilizing utility systems with modular container directives' },
-          { name: 'TypeScript', percentage: 95, level: 'Expert', desc: 'Implementing highly robust type validation structures' }
+          { name: 'React', percentage: 95, level: 'Expert', desc: 'Crafting performant interfaces with intricate layout structures, reusable state patterns, and polished responsiveness across device sizes.' },
+          { name: 'Next.js', percentage: 90, level: 'Expert', desc: 'Optimizing server actions, page transitions, and rendering strategies to deliver fast, SEO-ready experiences with resilient client fallbacks.' },
+          { name: 'TailwindCSS', percentage: 100, level: 'Master', desc: 'Using utility-first systems to shape consistent design tokens, responsive spacing, and refined micro-interactions without overwriting base styles.' },
+          { name: 'TypeScript', percentage: 95, level: 'Expert', desc: 'Implementing strict typing across components, API contracts, and shared modules to reduce runtime errors and clarify intent in larger codebases.' }
         ]
       },
       {
         id: 'backend',
         title: 'Backend Systems',
         skills: [
-          { name: 'Node.js', percentage: 92, level: 'Expert', desc: 'Building secure microservices and high-fidelity routing' },
-          { name: 'Express', percentage: 95, level: 'Expert', desc: 'Authoring lightweight routing nodes with secure token cycles' },
-          { name: 'MongoDB', percentage: 88, level: 'Advanced', desc: 'Optimizing indexes for aggregation pipelines' },
-          { name: 'REST / APIs', percentage: 92, level: 'Expert', desc: 'Designing optimized RESTful query pipelines and controller nodes' }
+          { name: 'Node.js', percentage: 92, level: 'Expert', desc: 'Building secure microservices, streamlining async flows, and maintaining clear service boundaries for reliable backend orchestration.' },
+          { name: 'Express', percentage: 95, level: 'Expert', desc: 'Authoring lightweight routes and middleware with clear request validation, robust error handling, and predictable API behavior.' },
+          { name: 'MongoDB', percentage: 88, level: 'Advanced', desc: 'Optimizing indexes, aggregation pipelines, and schema design to sustain fast query performance under growing data volumes.' },
+          { name: 'REST / APIs', percentage: 92, level: 'Expert', desc: 'Designing optimized RESTful query pipelines, controller nodes, and stable API contracts that support maintainable client-server integration.' }
         ]
       }
     ]
@@ -92,7 +92,7 @@ export const portfolioData = {
     {
       id: 'mern',
       title: 'MERN E-Commerce',
-      description: 'A full-scale marketplace with real-time inventory tracking, flexible user states, and secure Stripe payment gateway interfaces.',
+      description: 'A full-scale marketplace with live inventory syncing, flexible user states, and secure Stripe payment flows. Includes layered cart management, order tracking, and responsive merchandising dashboards engineered for high throughput and rapid UI feedback.',
       image: '',
       tags: ['Next.js', 'Redux', 'Netlify'],
       codeSnippet: `// Stripe Route Payment Proxy
@@ -119,7 +119,7 @@ paymentRouter.post('/charge', async (req, res) => {
     {
       id: 'agents',
       title: 'Multi-agent Coding Assistant',
-      description: 'Collaborative AI agent clusters that communicate over stateful custom WebSockets to analyze, structure, draft, and test Express/Node logic.',
+      description: 'Collaborative AI agent clusters that communicate over stateful WebSockets, analyze developer intent, and draft/test Express/Node logic in real time. Designed with resilient channel recovery, custom scoring, and modular integration points for iterative workflow automation.',
       image: agentsImg,
       tags: ['Google API', 'Node.js', 'Ollama'],
       codeSnippet: `// WebSocket Agent Stream Channel
@@ -143,7 +143,7 @@ export function setupAgentSyncChannels(httpServer) {
     {
       id: 'roomify',
       title: 'Roomify',
-      description: 'A premium, high-contrast room-booking and geolocation explorer application integrating strict Mapbox coordinates filters and secure instant messaging.',
+      description: 'A premium room dimension utility that visualizes 2D floor plans and 3D maps with precision. Built for intuitive navigation, spatial filtering, and seamless layout previews across desktop and mobile.',
       image: roomifyImg,
       tags: ['React.js', 'Express', 'Puter.js'],
       codeSnippet: `// 2D filter proxy coordinates calculation
@@ -169,7 +169,7 @@ router.get('/explore', async (req, res) => {
     {
       id: 'kensi',
       title: 'Kensi Powertech',
-      description: 'Industrial IoT microgrid monitoring interface visualizing live power yields, wind turbine speeds, and trigger mechanisms for predictive maintenance alerts.',
+      description: 'An industrial monitoring interface for a company website, blending real-time telemetry visualization, secure authentication, and responsive equipment dashboards. Designed to keep operational data visible while preserving usability under busy control workflows.',
       image: kensiImg,
       tags: ['Reactjs', 'Node.js', 'Google OAuth'],
       codeSnippet: `// Realtime Webpage Filter
@@ -230,7 +230,7 @@ export const anomalyReports$ = telemetryStream$.pipe(
   services: [
     {
       id: 'api',
-      title: 'API Microservices',
+      title: 'API or SDK Development',
       icon: 'server',
       description: 'Solid backend pipelines optimized for high volume. Configured with Express/Nest, scalable database layers, and robust security middleware.',
       pricing: 'Starts working',
