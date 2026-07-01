@@ -193,6 +193,30 @@ body::before {
   50% { transform: translateY(-12px) rotate(2deg); }
 }
 
+@keyframes slide-in-right {
+  0% { opacity: 0; transform: translateX(100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .float-icon {
   animation: float 5s ease-in-out infinite;
+}
+
+.marquee {
+  overflow: hidden;
+}
+
+.marquee > div {
+  display: flex;
+  gap: 0.6rem;
+  animation: marquee 14s linear infinite;
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.85s ease-out both;
 }
