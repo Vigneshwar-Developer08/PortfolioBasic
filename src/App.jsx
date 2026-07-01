@@ -7,7 +7,7 @@ import Skills from './components/Skills.jsx';
 import Projects from './components/Projects.jsx';
 import Contact from './components/Contact.jsx';
 import PageTransition from './components/PageTransition.jsx';
-import PageNav from './components/PageNav.jsx';
+import PageNav, { PAGE_ORDER } from './components/PageNav.jsx';
 import { Github, Linkedin, Mail, ChevronUp, ArrowUpRight } from 'lucide-react';
 import { portfolioData } from './portfolioData.js';
 
