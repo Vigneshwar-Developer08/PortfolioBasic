@@ -58,6 +58,34 @@ export default function Hero({ syntaxTheme, onNavigate }) {
       quote: 'Every line of code should solve a problem, not create a new one.',
       author: 'Unknown',
     },
+    {
+      quote: 'Debugging is like being the detective in a crime movie where you are also the murderer.',
+      author: 'Filipe Fortes',
+    },
+    {
+      quote: 'Programs must be written for people to read, and only incidentally for machines to execute.',
+      author: 'Harold Abelson',
+    },
+    {
+      quote: 'First, solve the problem. Then, write the code.',
+      author: 'John Johnson',
+    },
+    {
+      quote: 'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+      author: 'Martin Fowler',
+    },
+    {
+      quote: 'Before software can be reusable it first has to be usable.',
+      author: 'Ralph Johnson',
+    },
+    {
+      quote: 'Code is like humor. When you have to explain it, it’s bad.',
+      author: 'Cory House',
+    },
+    {
+      quote: 'Make it work, make it right, make it fast.',
+      author: 'Kent Beck',
+    },
   ];
 
   const projectPreviews = portfolioData.projects
@@ -70,29 +98,6 @@ export default function Hero({ syntaxTheme, onNavigate }) {
     <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden px-6 md:px-12 py-20 md:py-24" id="home">
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-brand-primary-container/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-brand-secondary-container/10 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="absolute inset-x-0 top-0 bottom-0 max-w-7xl mx-auto pointer-events-none hidden xl:block" id="floating-badges-container">
-        <div className="absolute top-24 left-8 float-icon" style={{ animationDelay: '0s' }}>
-          <div className="glass-card hover:glass-card-active p-4 rounded-xl flex items-center gap-3 pointer-events-auto">
-            <Layout className={`h-5 w-5 ${syntaxTheme === 'blue' ? 'text-indigo-600' : syntaxTheme === 'purple' ? 'text-purple-600' : 'text-emerald-600'}`} />
-            <span className="font-mono text-xs uppercase tracking-wider text-text-secondary font-semibold">React / Next.js</span>
-          </div>
-        </div>
-
-        <div className="absolute top-44 right-8 float-icon" style={{ animationDelay: '1.8s' }}>
-          <div className="glass-card hover:glass-card-active p-4 rounded-xl flex items-center gap-3 pointer-events-auto">
-            <Database className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            <span className="font-mono text-xs uppercase tracking-wider text-text-secondary font-semibold">MongoDB</span>
-          </div>
-        </div>
-
-        <div className="absolute bottom-24 left-16 float-icon" style={{ animationDelay: '3.2s' }}>
-          <div className="glass-card hover:glass-card-active p-4 rounded-xl flex items-center gap-3 pointer-events-auto">
-            <Terminal className={`h-5 w-5 ${syntaxTheme === 'blue' ? 'text-indigo-600' : syntaxTheme === 'purple' ? 'text-purple-600' : 'text-emerald-600'}`} />
-            <span className="font-mono text-xs uppercase tracking-wider text-text-secondary font-semibold">Express / Node</span>
-          </div>
-        </div>
-      </div>
 
       <div className="max-w-7xl w-full z-10">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-center">
@@ -176,25 +181,37 @@ export default function Hero({ syntaxTheme, onNavigate }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {projectPreviews.map((project) => (
-              <button key={project.id} onClick={() => onNavigate('projects')} className="overflow-hidden rounded-[1.5rem] border border-border shadow-sm bg-surface transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <img src={project.image} alt={project.title} className="h-48 w-full object-cover" />
-                <div className="p-4 text-left">
-                  <h3 className="text-sm font-semibold text-text mb-1">{project.title}</h3>
-                  <p className="text-xs text-text-muted">Preview</p>
-                </div>
-              </button>
-            ))}
+          <div className="space-y-4 max-w-4xl mx-auto">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-text-muted font-semibold mb-4 text-center">Project previews</p>
+              <h3 className="text-xl font-semibold text-text text-center">Recent work highlights</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {projectPreviews.map((project) => (
+                <button key={project.id} onClick={() => onNavigate('projects')} className="overflow-hidden rounded-[1.5rem] border border-border shadow-sm bg-surface transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <img src={project.image} alt={project.title} className="h-48 w-full object-cover" />
+                  <div className="p-4 text-left">
+                    <h3 className="text-sm font-semibold text-text mb-1">{project.title}</h3>
+                    <p className="text-xs text-text-muted">Preview</p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3 max-w-4xl mx-auto">
-            {quoteCards.map((card, idx) => (
-              <div key={idx} className="group bg-surface border border-border rounded-[1.5rem] p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900 dark:border-slate-700">
-                <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-4 group-hover:text-text transition-colors duration-300">“{card.quote}”</p>
-                <p className="text-xs uppercase tracking-[0.24em] text-text-muted font-semibold">{card.author}</p>
-              </div>
-            ))}
+          <div className="overflow-hidden max-w-full mx-auto mt-10">
+            <div className="mb-5">
+              <p className="text-xs uppercase tracking-widest text-text-muted font-semibold mb-3 text-center">Insights</p>
+              <h3 className="text-xl font-semibold text-text text-center">Thoughtful engineering quotes</h3>
+            </div>
+            <div className="marquee flex gap-4 items-stretch py-2">
+              {[...quoteCards, ...quoteCards].map((card, idx) => (
+                <div key={`${idx}-${card.author}`} className="min-w-[20rem] max-w-[20rem] shrink-0 group bg-surface border border-border rounded-[1.5rem] p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900 dark:border-slate-700">
+                  <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-4 group-hover:text-text transition-colors duration-300">“{card.quote}”</p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-text-muted font-semibold">{card.author}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
