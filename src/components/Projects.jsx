@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
-import { ArrowRight, Code, Sparkles, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
+import { Code, Sparkles } from 'lucide-react';
 import ProjectShowcaseModal from './ProjectShowcaseModal.jsx';
 import { portfolioData } from '../portfolioData.js';
+import { useAccent } from '../theme.js';
 
 export default function Projects({ syntaxTheme }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalViewMode, setModalViewMode] = useState('demo');
-  const [archiveSuccess, setArchiveSuccess] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const accent = useAccent(syntaxTheme);
 
   const { projects } = portfolioData;
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(media.matches);
+    updatePreference();
+    media.addEventListener?.('change', updatePreference);
+    return () => media.removeEventListener?.('change', updatePreference);
+  }, []);
 
   const handleOpenPlayground = (project, mode) => {
     setSelectedProject(project);
@@ -37,7 +48,7 @@ export default function Projects({ syntaxTheme }) {
           <div className="flex-1">
             <div className="section-pill mb-4"><Sparkles className="h-3 w-3" />Selected work</div>
             <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-text leading-tight">
-              Featured <span className={`bg-gradient-to-r ${syntaxTheme === 'blue' ? 'from-indigo-600 to-indigo-800' : syntaxTheme === 'purple' ? 'from-purple-600 to-purple-800' : 'from-emerald-600 to-emerald-800'} bg-clip-text text-transparent`}>projects</span>
+              Featured <span className={`bg-gradient-to-r ${accent.gradient} bg-clip-text text-transparent`}>projects</span>
             </h2>
             <p className="text-sm text-text-secondary max-w-xl mt-4 font-sans font-normal leading-relaxed">
               A portfolio of production-minded solutions crafted for reliability, performance, and a calm, modern user experience.
@@ -62,48 +73,55 @@ export default function Projects({ syntaxTheme }) {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8" id="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="group relative bg-surface rounded-[1.5rem] overflow-hidden border border-border hover:border-indigo-300/80 dark:hover:border-indigo-700 transition-all duration-300 shadow-sm hover:shadow-md">
-              <div className="aspect-video overflow-hidden relative">
-                {project.image ? (
-                  <img alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[5%] group-hover:grayscale-0" src={project.image} referrerPolicy="no-referrer" />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center">
-                    <span className="text-indigo-300 dark:text-indigo-400 font-sans text-xs uppercase tracking-wider font-bold">Preview</span>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3" id="projects-grid">
+          {projects.map((project, index) => {
+            const featured = index === 0;
+            return (
+              <motion.article
+                key={project.id}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+                whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -6, scale: 1.01, rotate: -0.4 }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
+                className={`group relative overflow-hidden rounded-[1.7rem] border border-border/80 bg-surface/85 p-0 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur ${featured ? 'md:col-span-2' : ''}`}
+              >
+                <div className={`relative overflow-hidden ${featured ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}>
+                  {project.image ? (
+                    <img alt={project.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" src={project.image} referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-100 via-white to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30">
+                      <span className="text-indigo-300 dark:text-indigo-400 font-sans text-xs uppercase tracking-[0.35em] font-bold">Preview</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex flex-wrap gap-2 p-5">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] ${badgeColors[tag] || 'text-white/80 border-white/25 bg-white/10'}`}>
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-85" />
-              </div>
-
-              <div className="p-8">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className={`px-3 py-1 border rounded-full font-sans text-[10px] uppercase font-bold tracking-wider ${badgeColors[tag] || 'text-text-secondary bg-surface-muted border-border/80'}`}>
-                      {tag}
-                    </span>
-                  ))}
                 </div>
 
-                <h3 className="text-xl font-sans font-extrabold text-text mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{project.title}</h3>
-                <p
-                  className="text-sm text-text-secondary font-normal leading-relaxed mb-6 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] max-h-16 group-hover:max-h-[24rem]"
-                  style={{ display: '-webkit-box', WebkitLineClamp: 10, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                >
-                  {project.description}
-                </p>
+                <div className="p-6 sm:p-7">
+                  <h3 className="text-xl font-sans font-extrabold text-text mb-3">{project.title}</h3>
+                  <p className="text-sm text-text-secondary font-normal leading-relaxed mb-6">
+                    {project.description}
+                  </p>
 
-                <div className="flex gap-4">
-                  <button onClick={() => handleOpenPlayground(project, 'demo')} className="flex-1 py-3 bg-surface-hover hover:bg-indigo-600 text-text hover:text-white rounded-xl font-sans text-xs uppercase tracking-wider font-bold border border-border hover:border-transparent transition-all cursor-pointer duration-300 active:scale-95 text-center shadow-sm">
-                    Live Demo
-                  </button>
-                  <button onClick={() => handleOpenPlayground(project, 'code')} title="View source blueprint" className="p-3 bg-surface-hover hover:bg-slate-200 border border-border rounded-xl text-text-secondary hover:text-slate-950 transition-all cursor-pointer active:scale-95 shadow-sm">
-                    <Code className="h-4 w-4" />
-                  </button>
+                  <div className="flex gap-3">
+                    <button onClick={() => handleOpenPlayground(project, 'demo')} className={`flex-1 rounded-2xl border border-border/80 bg-white/80 px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-text transition-all hover:${accent.backgroundHover} hover:text-white hover:border-transparent active:scale-95 dark:bg-slate-900/70`}>
+                      Live Demo
+                    </button>
+                    <button onClick={() => handleOpenPlayground(project, 'code')} title="View source blueprint" className="rounded-2xl border border-border/80 bg-surface-muted p-3 text-text-secondary transition-all hover:bg-surface-hover hover:text-text active:scale-95">
+                      <Code className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
       </div>
 

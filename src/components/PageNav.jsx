@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useAccent } from '../theme.js';
 
 const PAGE_ORDER = [
   { id: 'home', label: 'Home' },
@@ -15,42 +17,60 @@ export default function PageNav({ currentSection, onNavigate, syntaxTheme }) {
 
   const prev = currentIndex > 0 ? PAGE_ORDER[currentIndex - 1] : null;
   const next = currentIndex < PAGE_ORDER.length - 1 ? PAGE_ORDER[currentIndex + 1] : null;
-
-  const accent =
-    syntaxTheme === 'blue'
-      ? 'text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 border-indigo-200 dark:border-indigo-800/50'
-      : syntaxTheme === 'purple'
-        ? 'text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 border-purple-200 dark:border-purple-800/50'
-        : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/50';
+  const accent = useAccent(syntaxTheme);
 
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-4">
-      <div className="flex items-center justify-between gap-4 pt-8">
+      <div className="sticky bottom-4 z-30 flex items-center justify-between gap-4 rounded-full border border-border/80 bg-surface/75 px-3 py-3 shadow-[0_20px_45px_-24px_rgba(15,23,42,0.4)] backdrop-blur-xl">
         {prev ? (
-          <button
+          <motion.button
+            whileHover={{ x: -2, scale: 1.01 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => onNavigate(prev.id)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-surface text-sm font-medium transition-all ${accent}`}
+            className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${accent.border} ${accent.text} bg-white/70 dark:bg-slate-950/40`}
           >
             <ArrowLeft className="h-4 w-4" />
             {prev.label}
-          </button>
+          </motion.button>
         ) : (
           <div />
         )}
 
-        <div>
-          {next ? (
-            <button
-              onClick={() => onNavigate(next.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-surface text-sm font-medium transition-all ${accent}`}
-            >
-              {next.label}
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          ) : (
-            <div />
-          )}
+        <div className="flex items-center gap-2 rounded-full border border-border/70 bg-surface/70 px-2 py-1.5 shadow-inner">
+          {PAGE_ORDER.map((item) => {
+            const active = item.id === currentSection;
+            return (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className="relative rounded-full px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors"
+              >
+                {active ? (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className={`absolute inset-0 rounded-full ${accent.background} shadow-lg`}
+                    transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                  />
+                ) : null}
+                <span className={`relative z-10 ${active ? 'text-white' : 'text-text-secondary'}`}>{item.label}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {next ? (
+          <motion.button
+            whileHover={{ x: 2, scale: 1.01 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => onNavigate(next.id)}
+            className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${accent.border} ${accent.text} bg-white/70 dark:bg-slate-950/40`}
+          >
+            {next.label}
+            <ArrowRight className="h-4 w-4" />
+          </motion.button>
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export const portfolioData = {
     education: {
       degree: "B.E. Computer Science",
       school: "Anna University",
-      period: "2017 - 2021",
+      period: "2022 - 2026",
       gpa: "8.26/10",
       courses: ["MERN Stack", "Gen AI", "OLLAMA", "Claude code", "MongoDB"]
     },
@@ -84,6 +84,15 @@ export const portfolioData = {
           { name: 'Express', percentage: 95, level: 'Expert', desc: 'Authoring lightweight routes and middleware with clear request validation, robust error handling, and predictable API behavior.' },
           { name: 'MongoDB', percentage: 88, level: 'Advanced', desc: 'Optimizing indexes, aggregation pipelines, and schema design to sustain fast query performance under growing data volumes.' },
           { name: 'REST / APIs', percentage: 92, level: 'Expert', desc: 'Designing optimized RESTful query pipelines, controller nodes, and stable API contracts that support maintainable client-server integration.' }
+        ]
+      },
+      {
+        id: 'deployment',
+        title: 'Deployment & Hosting',
+        skills: [
+          { name: 'Netlify', percentage: 90, level: 'Expert', desc: 'Deploying fast, resilient frontend apps with smooth continuous delivery, custom domains, and reliable build pipelines.' },
+          { name: 'Vercel', percentage: 88, level: 'Advanced', desc: 'Shipping modern React and Next.js experiences with instant previews, edge-ready setups, and clean production workflows.' },
+          { name: 'Render', percentage: 84, level: 'Advanced', desc: 'Publishing backend services and full-stack apps with dependable runtime environments and simple release management.' }
         ]
       }
     ]
