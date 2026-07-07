@@ -1,49 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Download, Terminal, Database, Layout, FileText, CheckCircle, User, Code2, FolderKanban, Mail } from 'lucide-react';
+import { ArrowRight, Download, FileText, CheckCircle, User, Code2, FolderKanban, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { portfolioData } from '../portfolioData.js';
+import { useAccent } from '../theme.js';
 
 export default function Hero({ syntaxTheme, onNavigate }) {
   const { developer, meta } = portfolioData;
+  const accent = useAccent(syntaxTheme);
   const titles = developer.secondaryRoles;
-
-  const [titleIdx, setTitleIdx] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
   const [showResumeModal, setShowResumeModal] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    let timer;
-    const fullText = titles[titleIdx];
-
-    const handleType = () => {
-      if (!isDeleting) {
-        setCurrentText(fullText.substring(0, currentText.length + 1));
-        if (currentText === fullText) {
-          timer = setTimeout(() => setIsDeleting(true), 1800);
-          return;
-        }
-      } else {
-        setCurrentText(fullText.substring(0, currentText.length - 1));
-        if (currentText === '') {
-          setIsDeleting(false);
-          setTitleIdx((prev) => (prev + 1) % titles.length);
-          return;
-        }
-      }
-
-      setTypingSpeed(isDeleting ? 35 : 70);
-    };
-
-    timer = setTimeout(handleType, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, titleIdx, typingSpeed]);
-
-  const accentColorClass =
-    syntaxTheme === 'blue' ? 'text-brand-primary' :
-    syntaxTheme === 'purple' ? 'text-brand-secondary' :
-    'text-emerald-400';
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(media.matches);
+    updatePreference();
+    media.addEventListener?.('change', updatePreference);
+    return () => media.removeEventListener?.('change', updatePreference);
+  }, []);
 
   const quoteCards = [
     {
@@ -96,18 +70,26 @@ export default function Hero({ syntaxTheme, onNavigate }) {
 
   return (
     <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden px-6 md:px-12 py-20 md:py-24" id="home">
-      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-brand-primary-container/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-brand-secondary-container/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute left-[-8rem] top-[-2rem] h-64 w-64 rounded-full blur-[120px] opacity-70 ${accent.soft}`} />
+        <div className={`absolute right-[-6rem] top-1/3 h-72 w-72 rounded-full blur-[140px] opacity-70 ${accent.soft}`} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.75),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.35),transparent_35%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.05),transparent_35%)]" />
+      </div>
 
       <div className="max-w-7xl w-full z-10">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-center">
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+          <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }} animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
             <div className="section-pill mb-6">Available for select opportunities</div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold mb-6 tracking-tight leading-tight text-text">
               Hi, I’m <span className="gradient-text">{developer.fullName}</span><br />
-              <span className={`typing ${accentColorClass} font-sans font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl border-r-2 border-text-muted pr-1`}>
-                {currentText}
-              </span>
+              <motion.span
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.15 }}
+                className={`mt-2 block font-sans font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl ${accent.text}`}
+              >
+                {developer.role}
+              </motion.span>
             </h1>
 
             <p className="text-sm sm:text-base md:text-lg text-text-secondary mb-8 max-w-2xl font-sans font-normal leading-relaxed">
@@ -115,42 +97,47 @@ export default function Hero({ syntaxTheme, onNavigate }) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
+              <motion.button
+                whileHover={prefersReducedMotion ? undefined : { y: -2, scale: 1.01, rotate: -0.5 }}
+                whileTap={prefersReducedMotion ? undefined : { scale: 0.97, y: 1 }}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
                 onClick={() => onNavigate('projects')}
-                className={`px-7 py-3.5 ${syntaxTheme === 'blue' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : syntaxTheme === 'purple' ? 'bg-purple-600 text-white hover:bg-purple-700' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold rounded-2xl hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2 group cursor-pointer duration-300 w-full sm:w-auto`}
+                className={`px-7 py-3.5 ${accent.button} font-bold rounded-2xl flex items-center justify-center gap-2 group cursor-pointer duration-300 w-full sm:w-auto shadow-lg`}
               >
                 View Projects
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={prefersReducedMotion ? undefined : { y: -2, scale: 1.01 }}
+                whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
                 onClick={() => setShowResumeModal(true)}
-                className="px-7 py-3.5 border border-border bg-surface hover:bg-surface-muted text-text font-semibold rounded-2xl hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-2 duration-300 w-full sm:w-auto cursor-pointer shadow-sm"
+                className="px-7 py-3.5 border border-border bg-surface/80 hover:bg-surface-muted text-text font-semibold rounded-2xl flex items-center justify-center gap-2 duration-300 w-full sm:w-auto cursor-pointer shadow-sm backdrop-blur"
               >
                 Download Resume
                 <Download className="h-4 w-4" />
-              </button>
+              </motion.button>
             </div>
 
             <div className="mt-8 flex flex-wrap gap-2">
               {focusHighlights.map((item) => (
-                <span key={item} className="rounded-full border border-border bg-surface/80 px-3 py-1.5 text-xs font-semibold text-text-secondary">
+                <span key={item} className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${accent.pill}`}>
                   {item}
                 </span>
               ))}
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }} className="section-shell rounded-[1.75rem] p-6 md:p-8">
+          <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }} animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }} className="section-shell rounded-[1.75rem] p-6 md:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
               {portfolioData.stats.map((stat) => (
-                <div key={stat.id} className="rounded-2xl border border-border bg-surface/70 p-4 shadow-sm">
+                <div key={stat.id} className="rounded-2xl border border-border/80 bg-surface/70 p-4 shadow-sm backdrop-blur">
                   <div className={`text-2xl font-bold ${stat.colorClass}`}>{stat.num}</div>
                   <div className="text-xs uppercase tracking-[0.24em] text-text-muted font-semibold mt-1">{stat.label}</div>
                   <p className="text-sm text-text-secondary mt-3 leading-relaxed">{stat.details}</p>
                 </div>
               ))}
-              <div className="sm:col-span-2 rounded-2xl border border-border bg-surface-muted/70 p-5">
+              <div className="sm:col-span-2 rounded-2xl border border-border/80 bg-surface-muted/70 p-5 shadow-sm">
                 <p className="text-[10px] uppercase tracking-[0.24em] font-bold text-text-muted">Current focus</p>
                 <div className="mt-3 space-y-2 text-sm text-text-secondary">
                   <p>• Designing polished full-stack experiences that feel calm, fast, and deliberate.</p>
@@ -172,11 +159,16 @@ export default function Hero({ syntaxTheme, onNavigate }) {
                 { id: 'projects', label: 'Projects', icon: FolderKanban, desc: 'My work' },
                 { id: 'contact', label: 'Contact', icon: Mail, desc: 'Get in touch' },
               ].map(({ id, label, icon: Icon, desc }) => (
-                <button key={id} onClick={() => onNavigate(id)} className="group glass-card rounded-2xl p-4 text-left hover:glass-card-active">
-                  <Icon className={`h-5 w-5 mb-3 ${syntaxTheme === 'blue' ? 'text-indigo-600 dark:text-indigo-400' : syntaxTheme === 'purple' ? 'text-purple-600 dark:text-purple-400' : 'text-emerald-600 dark:text-emerald-400'}`} />
-                  <p className="text-sm font-semibold text-text group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{label}</p>
+                <motion.button
+                  key={id}
+                  whileHover={prefersReducedMotion ? undefined : { y: -3, scale: 1.01 }}
+                  onClick={() => onNavigate(id)}
+                  className="group glass-card rounded-2xl p-4 text-left hover:glass-card-active"
+                >
+                  <Icon className={`h-5 w-5 mb-3 ${accent.text}`} />
+                  <p className="text-sm font-semibold text-text transition-colors">{label}</p>
                   <p className="text-xs text-text-muted mt-0.5">{desc}</p>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -188,13 +180,18 @@ export default function Hero({ syntaxTheme, onNavigate }) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {projectPreviews.map((project) => (
-                <button key={project.id} onClick={() => onNavigate('projects')} className="overflow-hidden rounded-[1.5rem] border border-border shadow-sm bg-surface transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <motion.button
+                  key={project.id}
+                  whileHover={prefersReducedMotion ? undefined : { y: -4, scale: 1.01 }}
+                  onClick={() => onNavigate('projects')}
+                  className="overflow-hidden rounded-[1.5rem] border border-border/80 shadow-sm bg-surface/80 backdrop-blur transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
                   <img src={project.image} alt={project.title} className="h-48 w-full object-cover" />
                   <div className="p-4 text-left">
                     <h3 className="text-sm font-semibold text-text mb-1">{project.title}</h3>
                     <p className="text-xs text-text-muted">Preview</p>
                   </div>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -204,9 +201,9 @@ export default function Hero({ syntaxTheme, onNavigate }) {
               <p className="text-xs uppercase tracking-widest text-text-muted font-semibold mb-3 text-center">Insights</p>
               <h3 className="text-xl font-semibold text-text text-center">Thoughtful engineering quotes</h3>
             </div>
-            <div className="marquee flex gap-4 items-stretch py-2">
+            <div className="marquee flex gap-4 items-stretch py-2" style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
               {[...quoteCards, ...quoteCards].map((card, idx) => (
-                <div key={`${idx}-${card.author}`} className="min-w-[20rem] max-w-[20rem] shrink-0 group bg-surface border border-border rounded-[1.5rem] p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900 dark:border-slate-700">
+                <div key={`${idx}-${card.author}`} className="min-w-[20rem] max-w-[20rem] shrink-0 group bg-surface/80 border border-border rounded-[1.5rem] p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900/70 dark:border-slate-700 backdrop-blur">
                   <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-4 group-hover:text-text transition-colors duration-300">“{card.quote}”</p>
                   <p className="text-xs uppercase tracking-[0.24em] text-text-muted font-semibold">{card.author}</p>
                 </div>

@@ -10,6 +10,7 @@ import PageTransition from './components/PageTransition.jsx';
 import PageNav, { PAGE_ORDER } from './components/PageNav.jsx';
 import { Github, Linkedin, Mail, ChevronUp, ArrowUpRight } from 'lucide-react';
 import { portfolioData } from './portfolioData.js';
+import { AccentThemeProvider, useAccent } from './theme.js';
 
 const VALID_SECTIONS = PAGE_ORDER.map((p) => p.id);
 
@@ -21,6 +22,7 @@ export default function App() {
 
   const { developer, meta } = portfolioData;
   const initials = `${developer.firstName[0]}${developer.lastName[0]}`;
+  const accent = useAccent(syntaxTheme);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
@@ -50,12 +52,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const accentBg =
-    syntaxTheme === 'blue'
-      ? 'bg-indigo-600'
-      : syntaxTheme === 'purple'
-        ? 'bg-purple-600'
-        : 'bg-emerald-600';
+  const accentBg = accent.background;
 
   const renderPage = () => {
     switch (currentSection) {
@@ -75,6 +72,7 @@ export default function App() {
   };
 
   return (
+    <AccentThemeProvider value={{ ...accent, accentTheme: syntaxTheme }}>
     <div className="min-h-screen bg-bg text-text font-sans overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-950 dark:selection:bg-indigo-900/50 dark:selection:text-indigo-200">
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(79,70,229,0.07),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(129,140,248,0.05),transparent)] pointer-events-none z-0" />
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f46e504_1px,transparent_1px),linear-gradient(to_bottom,#4f46e504_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none z-0" />
@@ -153,5 +151,6 @@ export default function App() {
         <ChevronUp className="h-5 w-5" />
       </button>
     </div>
+    </AccentThemeProvider>
   );
 }
