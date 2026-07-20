@@ -57,7 +57,7 @@ export default function Header({
 
   return (
     <header className="sticky top-0 w-full z-50 bg-surface/85 backdrop-blur-xl border-b border-border/70 shadow-sm">
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-12 h-16 md:h-[4.5rem]">
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 md:px-12 h-16 md:h-[4.5rem]">
         <button
           onClick={() => handleNavClick('home')}
           className="cursor-pointer flex items-center gap-2.5 group"

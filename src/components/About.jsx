@@ -28,7 +28,7 @@ export default function About({ syntaxTheme }) {
   ];
 
   return (
-    <section className="py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto" id="about">
+    <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto" id="about">
       <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-start">
         <div id="about-text-content">
           <div className="section-pill mb-6">About me</div>
@@ -71,7 +71,7 @@ export default function About({ syntaxTheme }) {
           </div>
         </div>
 
-        <div className="section-shell rounded-[1.75rem] p-6 md:p-8">
+        <div className="section-shell rounded-[1.75rem] p-4 sm:p-6 md:p-8">
           <div className="space-y-5">
             <div>
               <p className="text-[10px] uppercase tracking-[0.24em] font-bold text-text-muted">How I work</p>
