@@ -97,7 +97,7 @@ export default function App() {
       </main>
 
       <footer className="relative border-t border-border bg-surface py-12 z-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 mb-8 border-b border-border">
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">

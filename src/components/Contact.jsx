@@ -41,8 +41,8 @@ export default function Contact({ syntaxTheme }) {
   const buttonColorClass = syntaxTheme === 'blue' ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm' : syntaxTheme === 'purple' ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-sm' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm';
 
   return (
-    <section className="py-20 md:py-24 px-6 md:px-12 max-w-6xl mx-auto" id="contact">
-      <div className="section-shell rounded-[1.75rem] p-6 md:p-10 relative overflow-hidden">
+    <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto" id="contact">
+      <div className="section-shell rounded-[1.75rem] p-4 sm:p-6 md:p-10 relative overflow-hidden">
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/5 dark:bg-indigo-900/10 rounded-full blur-[80px] pointer-events-none" />
 
         <div className="text-center mb-10">
@@ -71,28 +71,28 @@ export default function Contact({ syntaxTheme }) {
             <form onSubmit={handleSubmit} className="space-y-6" id="contact-form">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-sans uppercase tracking-widest text-slate-700 font-extrabold flex items-center gap-2">
+                  <label className="text-xs font-sans uppercase tracking-widest text-text-secondary font-extrabold flex items-center gap-2">
                     <User className="h-3.5 w-3.5 text-indigo-600" />
                     Full Name
                   </label>
-                  <input type="text" required placeholder="Vignesh" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={`w-full bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-3.5 text-xs text-slate-800 font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all`} />
+                  <input type="text" required placeholder="Vignesh" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={`w-full bg-surface-muted border border-border rounded-xl px-4 py-3.5 text-xs text-text font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all`} />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-sans uppercase tracking-widest text-slate-700 font-extrabold flex items-center gap-2">
+                  <label className="text-xs font-sans uppercase tracking-widest text-text-secondary font-extrabold flex items-center gap-2">
                     <Mail className="h-3.5 w-3.5 text-purple-600" />
                     Business Email
                   </label>
-                  <input type="email" required placeholder="hello@company.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={`w-full bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-3.5 text-xs text-slate-800 font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all`} />
+                  <input type="email" required placeholder="hello@company.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={`w-full bg-surface-muted border border-border rounded-xl px-4 py-3.5 text-xs text-text font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all`} />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-sans uppercase tracking-widest text-slate-700 font-extrabold flex items-center gap-2">
+                <label className="text-xs font-sans uppercase tracking-widest text-text-secondary font-extrabold flex items-center gap-2">
                   <Briefcase className="h-3.5 w-3.5 text-emerald-600" />
                   Project Type
                 </label>
-                <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className={`w-full bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-3.5 text-xs text-slate-700 font-sans font-bold focus:outline-none focus:ring-1 ${activeFocusClass} transition-colors cursor-pointer`}>
+                <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className={`w-full bg-surface-muted border border-border rounded-xl px-4 py-3.5 text-xs text-text font-sans font-bold focus:outline-none focus:ring-1 ${activeFocusClass} transition-colors cursor-pointer`}>
                   <option>API or SDK Development</option>
                   <option>Immersive Front-End Shells</option>
                   <option>Full-Stack SaaS Setup</option>
@@ -101,11 +101,11 @@ export default function Contact({ syntaxTheme }) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-sans uppercase tracking-widest text-slate-700 font-extrabold flex items-center gap-2">
+                <label className="text-xs font-sans uppercase tracking-widest text-text-secondary font-extrabold flex items-center gap-2">
                   <MessageSquare className="h-3.5 w-3.5 text-indigo-600" />
                   Project Summary
                 </label>
-                <textarea required rows={7} placeholder="Provide the scope, timeline, and business goals." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`w-full bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-3.5 text-xs text-slate-800 font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all resize-none`} />
+                <textarea required rows={7} placeholder="Provide the scope, timeline, and business goals." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`w-full bg-surface-muted border border-border rounded-xl px-4 py-3.5 text-xs text-text font-sans font-semibold focus:outline-none focus:ring-1 ${activeFocusClass} transition-all resize-none`} />
               </div>
 
               {errorMessage && (

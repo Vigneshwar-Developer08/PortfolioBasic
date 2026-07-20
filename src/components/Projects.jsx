@@ -42,7 +42,7 @@ export default function Projects({ syntaxTheme }) {
   };
 
   return (
-    <section className="py-20 md:py-24 px-6 md:px-12 bg-surface-muted/70 border-t border-b border-border" id="projects">
+    <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 bg-surface-muted/70 border-t border-b border-border" id="projects">
       <div className="max-w-7xl mx-auto">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] items-end mb-12">
           <div className="flex-1">
@@ -55,7 +55,7 @@ export default function Projects({ syntaxTheme }) {
             </p>
           </div>
 
-          <div className="section-shell rounded-[1.5rem] p-6">
+          <div className="section-shell rounded-[1.5rem] p-4 sm:p-6">
             <div className="grid gap-3 sm:grid-cols-3">
               <div>
                 <p className="text-2xl font-bold text-text">4+</p>
@@ -104,7 +104,7 @@ export default function Projects({ syntaxTheme }) {
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-7">
+                <div className="p-4 sm:p-6 sm:p-7">
                   <h3 className="text-xl font-sans font-extrabold text-text mb-3">{project.title}</h3>
                   <p className="text-sm text-text-secondary font-normal leading-relaxed mb-6">
                     {project.description}

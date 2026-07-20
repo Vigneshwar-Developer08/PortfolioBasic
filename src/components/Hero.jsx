@@ -9,6 +9,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
   const accent = useAccent(syntaxTheme);
   const titles = developer.secondaryRoles;
   const [showResumeModal, setShowResumeModal] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
   const focusHighlights = ['React + Next.js', 'Node.js APIs', 'MongoDB performance', 'Accessible UI'];
 
   return (
-    <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden px-6 md:px-12 py-20 md:py-24" id="home">
+    <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden px-4 sm:px-6 md:px-12 py-16 sm:py-20 md:py-24" id="home">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute left-[-8rem] top-[-2rem] h-64 w-64 rounded-full blur-[120px] opacity-70 ${accent.soft}`} />
         <div className={`absolute right-[-6rem] top-1/3 h-72 w-72 rounded-full blur-[140px] opacity-70 ${accent.soft}`} />
@@ -128,7 +129,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
             </div>
           </motion.div>
 
-          <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }} animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }} className="section-shell rounded-[1.75rem] p-6 md:p-8">
+          <motion.div initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }} animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }} className="section-shell rounded-[1.75rem] p-4 sm:p-6 md:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
               {portfolioData.stats.map((stat) => (
                 <div key={stat.id} className="rounded-2xl border border-border/80 bg-surface/70 p-4 shadow-sm backdrop-blur">
@@ -203,7 +204,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
             </div>
             <div className="marquee flex gap-4 items-stretch py-2" style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}>
               {[...quoteCards, ...quoteCards].map((card, idx) => (
-                <div key={`${idx}-${card.author}`} className="min-w-[20rem] max-w-[20rem] shrink-0 group bg-surface/80 border border-border rounded-[1.5rem] p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900/70 dark:border-slate-700 backdrop-blur">
+                <div key={`${idx}-${card.author}`} className="min-w-[16rem] sm:min-w-[20rem] max-w-[16rem] sm:max-w-[20rem] shrink-0 group bg-surface/80 border border-border rounded-[1.5rem] p-4 sm:p-6 shadow-sm transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-indigo-300 dark:bg-slate-900/70 dark:border-slate-700 backdrop-blur">
                   <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-4 group-hover:text-text transition-colors duration-300">“{card.quote}”</p>
                   <p className="text-xs uppercase tracking-[0.24em] text-text-muted font-semibold">{card.author}</p>
                 </div>
@@ -235,7 +236,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
                 </button>
               </div>
 
-              <div className="bg-surface text-text p-8 md:p-12 overflow-y-auto max-h-[70vh] font-sans">
+              <div className="bg-surface text-text p-5 sm:p-8 md:p-12 overflow-y-auto max-h-[70vh] font-sans">
                 <div className="text-center border-b border-border pb-6 mb-6">
                   <h2 className="text-3xl font-extrabold tracking-tight text-text">{developer.fullName}</h2>
                   <p className="text-indigo-600 dark:text-indigo-400 font-sans text-sm uppercase font-bold tracking-wider mt-1">{developer.role}</p>
@@ -281,7 +282,7 @@ export default function Hero({ syntaxTheme, onNavigate }) {
               </div>
 
               {/* Sticky Footer */}
-              <div className="bg-surface-muted px-6 py-4 border-t border-border flex flex-col sm:flex-row gap-4 sm:justify-between items-center">
+              <div className="bg-surface-muted px-4 sm:px-6 py-4 border-t border-border flex flex-col sm:flex-row gap-3 sm:justify-between items-center">
                 <span className="text-xs text-text-secondary font-sans">
                   {downloadSuccess ? (
                     <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5">

@@ -48,7 +48,7 @@ export default function Skills({ syntaxTheme }) {
   };
 
   return (
-    <section className="py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto" id="skills">
+    <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto" id="skills">
       <div className="text-center mb-12">
         <div className="section-pill mb-6">Core competencies</div>
         <h2 className="text-3xl md:text-5xl font-sans font-extrabold mb-4 text-text">
@@ -67,7 +67,7 @@ export default function Skills({ syntaxTheme }) {
             whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.35, delay: index * 0.06 }}
-            className="section-shell rounded-[1.5rem] p-6 md:p-7"
+            className="section-shell rounded-[1.5rem] p-4 sm:p-6 md:p-7"
           >
             <div className="flex items-center gap-3 mb-6">
               {getCategoryIcon(category.icon, category.colorClass)}
@@ -107,7 +107,7 @@ export default function Skills({ syntaxTheme }) {
         ))}
       </div>
 
-      <div className="section-shell rounded-[1.75rem] p-6 md:p-8">
+      <div className="section-shell rounded-[1.75rem] p-4 sm:p-6 md:p-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
           <div>
             <p className="text-[10px] uppercase tracking-[0.24em] font-bold text-text-muted">Delivery style</p>

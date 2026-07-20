@@ -179,10 +179,10 @@ export function drawTelemetryChart(containerId, telemetryData) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-md">
-      <div className="relative w-full max-w-4xl bg-surface rounded-2xl overflow-hidden shadow-2xl border border-border max-h-[85vh] flex flex-col">
+      <div className="relative w-full max-w-4xl bg-surface rounded-2xl overflow-hidden shadow-2xl border border-border max-h-[90vh] sm:max-h-[85vh] flex flex-col">
         
         {/* Header Tab Navigator */}
-        <div className="flex justify-between items-center bg-surface-muted px-6 py-4 border-b border-border-light shrink-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-surface-muted px-4 sm:px-6 py-3 sm:py-4 border-b border-border-light shrink-0">
           <div className="flex items-center gap-3">
             <span className="text-indigo-600 dark:text-indigo-400 p-2 rounded-lg bg-indigo-50/70 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800/50">
               {project.id === 'mern' && <ShoppingBag className="h-5 w-5" />}
@@ -223,7 +223,7 @@ export function drawTelemetryChart(containerId, telemetryData) {
         </div>
 
         {/* Modal Scaffold Body */}
-        <div className="overflow-y-auto p-6 md:p-8 flex-1 bg-surface">
+        <div className="overflow-y-auto p-4 sm:p-6 md:p-8 flex-1 bg-surface">
           {activeTab === 'demo' ? (
             <div>
               {/* project specifics */}
@@ -601,7 +601,7 @@ export function drawTelemetryChart(containerId, telemetryData) {
         </div>
 
         {/* Modal Scaffold Footer */}
-        <div className="bg-surface-muted px-6 py-4 border-t border-border flex justify-between items-center shrink-0">
+        <div className="bg-surface-muted px-4 sm:px-6 py-3 sm:py-4 border-t border-border flex flex-col sm:flex-row gap-3 sm:justify-between items-center shrink-0">
           <span className="text-xs text-text-secondary font-sans font-medium">Designed dynamically for high-fidelity portfolio presentation</span>
           <button 
             onClick={onClose}
